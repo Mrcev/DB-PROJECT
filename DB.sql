@@ -26,8 +26,8 @@ GO
 -- HOCA TABLOSU
 CREATE TABLE Lecturer (
     id INT IDENTITY(1,1) PRIMARY KEY,     -- Hocanın idsi 
-    name VARCHAR(30) NOT NULL,            -- Hoca adı 
-    surname VARCHAR(20) NOT NULL,         -- Hoca soyadı 
+    name CHAR(30) NOT NULL,            -- Hoca adı 
+    surname CHAR(20) NOT NULL,         -- Hoca soyadı 
     email VARCHAR(50),                    -- İletişim e-postası 
     phone VARCHAR(10),                    -- Telefon numarası 
     departmentId INT,                     -- RELATION Hocanın olduğu bölüm 
@@ -44,8 +44,8 @@ GO
 -- ÖĞRENCİ TABLOSU
 CREATE TABLE Student (
     id INT IDENTITY(1,1) PRIMARY KEY,     -- Öğrenci No Otomatik artan 
-    name VARCHAR(30) NOT NULL,            -- Adı 
-    surname VARCHAR(20) NOT NULL,         -- Soyadı 
+    name CHAR(30) NOT NULL,            -- Adı 
+    surname CHAR(20) NOT NULL,         -- Soyadı 
     dateOfBirth DATE,                     -- Doğum tarihi (YYYY-MM-DD) 
     gender VARCHAR(10),                   -- Cinsiyet 
     email VARCHAR(50),                    -- E-posta 
