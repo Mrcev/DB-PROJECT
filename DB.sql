@@ -1,4 +1,4 @@
-﻿-- Veritabanı oluştur
+-- Veritabanı oluştur
 CREATE DATABASE StudentSystemDB;
 GO
 
@@ -97,7 +97,20 @@ CREATE TABLE Enrollment (
     FOREIGN KEY (courseId) REFERENCES Course(courseId)
 );
 GO
+---------------------------------------------------------------------------------------
 
+
+-- HOCA DERS TABLOSU (Öğretmenin Verdiği Dersler)
+CREATE TABLE LecturerCourse (
+    lecturerId INT NOT NULL,              -- RELATION Dersi veren hoca
+    courseId INT NOT NULL,                -- RELATION Verilen ders
+    PRIMARY KEY (lecturerId, courseId),   -- Bir hoca bir dersi sadece bir kez verebilir
+
+    -- Hoca ve Ders arasında Many-to-Many bağlantı
+    FOREIGN KEY (lecturerId) REFERENCES Lecturer(id),
+    FOREIGN KEY (courseId) REFERENCES Course(courseId)
+);
+GO
 ---------------------------------------------------------------------------------------
 
 -- KONTROL SORGULARI
@@ -106,5 +119,5 @@ SELECT * FROM Department;
 SELECT * FROM Enrollment;
 SELECT * FROM Lecturer;
 SELECT * FROM Student;
-
+SELECT * FROM LecturerCourse;
 ---------------------------------------------------------------------------------------
