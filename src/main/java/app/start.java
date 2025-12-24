@@ -6,7 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class start extends Application {
+public class Start extends Application {
 
     @Override
     public void start(Stage primaryStage) {
@@ -20,8 +20,10 @@ public class start extends Application {
 
             primaryStage.setTitle("Database Frontend");
             primaryStage.setScene(scene);
-            primaryStage.show();}
-        catch (Exception e) {e.printStackTrace();}}
+            primaryStage.show();
+        } catch (Exception e) {e.printStackTrace();}}
 
     public static void main(String[] args) {
-        launch(args); }}
+        launch(args);
+    }
+}

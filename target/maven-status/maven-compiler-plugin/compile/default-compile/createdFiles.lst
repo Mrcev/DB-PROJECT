@@ -1,0 +1,9 @@
+app\model\Enrollment.class
+app\model\Department.class
+module-info.class
+app\model\Student.class
+app\model\Lecturer.class
+app\model\Course.class
+app\database\DatabaseHelper.class
+app\controller\mainController.class
+app\Start.class

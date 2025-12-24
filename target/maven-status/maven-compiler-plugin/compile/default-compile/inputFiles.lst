@@ -1,3 +1,9 @@
-C:\Users\lahmac\Desktop\Codes\Java\gui\database_frontend\src\main\java\app\mainController.java
-C:\Users\lahmac\Desktop\Codes\Java\gui\database_frontend\src\main\java\app\start.java
-C:\Users\lahmac\Desktop\Codes\Java\gui\database_frontend\src\main\java\module-info.java
+C:\Users\matas\Documents\GitHub\DB-PROJECT\src\main\java\app\controller\mainController.java
+C:\Users\matas\Documents\GitHub\DB-PROJECT\src\main\java\app\database\DatabaseHelper.java
+C:\Users\matas\Documents\GitHub\DB-PROJECT\src\main\java\app\model\Course.java
+C:\Users\matas\Documents\GitHub\DB-PROJECT\src\main\java\app\model\Department.java
+C:\Users\matas\Documents\GitHub\DB-PROJECT\src\main\java\app\model\Enrollment.java
+C:\Users\matas\Documents\GitHub\DB-PROJECT\src\main\java\app\model\Lecturer.java
+C:\Users\matas\Documents\GitHub\DB-PROJECT\src\main\java\app\model\Student.java
+C:\Users\matas\Documents\GitHub\DB-PROJECT\src\main\java\app\Start.java
+C:\Users\matas\Documents\GitHub\DB-PROJECT\src\main\java\module-info.java
