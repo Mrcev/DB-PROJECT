@@ -32,7 +32,7 @@ CREATE TABLE Student (
     departmentId INT,
     supervisorId INT,
     FOREIGN KEY (departmentId) REFERENCES Department(deptId),
-    FOREIGN KEY (supervisorId) REFERENCES Lecturer(id)
+    FOREIGN KEY (supervisorId) REFERENCES Lecturer(id) ON DELETE SET NULL
 );
 
 CREATE TABLE Course (
@@ -50,16 +50,19 @@ CREATE TABLE Enrollment (
     courseId INT NOT NULL,
     grade DECIMAL(5, 2),
     enrollmentDate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (studentId) REFERENCES Student(id),
-    FOREIGN KEY (courseId) REFERENCES Course(courseId)
+    FOREIGN KEY (studentId) REFERENCES Student(id) ON DELETE CASCADE,
+    FOREIGN KEY (courseId) REFERENCES Course(courseId) ON DELETE CASCADE
 );
 
 CREATE TABLE LecturerCourse (
     lecturerId INT NOT NULL,
     courseId INT NOT NULL,
     PRIMARY KEY (lecturerId, courseId),
-    FOREIGN KEY (lecturerId) REFERENCES Lecturer(id),
-    FOREIGN KEY (courseId) REFERENCES Course(courseId)
+    FOREIGN KEY (lecturerId) REFERENCES Lecturer(id) ON DELETE CASCADE,
+    FOREIGN KEY (courseId) REFERENCES Course(courseId) ON DELETE CASCADE
 );
+
+
+
 
 

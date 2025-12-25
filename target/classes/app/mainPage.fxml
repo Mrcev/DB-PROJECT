@@ -9,55 +9,70 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane fx:id="mainPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.controller.mainController">
+<AnchorPane fx:id="mainPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="app.mainController">
     <children>
-        <Group fx:id="StudentGroup" layoutX="24.0" layoutY="89.0">
+        <Group fx:id="StudentGroup" layoutX="24.0" layoutY="60.0">
             <children>
-                <TextField editable="false" layoutY="3.0" prefHeight="23.0" prefWidth="151.0" text="Student">
+                <TextField editable="false" layoutY="3.0" prefHeight="23.0" prefWidth="151.0" text="Student Operations">
                     <font>
                         <Font name="Tahoma Bold" size="12.0" />
                     </font>
                 </TextField>
-                <Button fx:id="getStudentinfoButton" layoutY="23.0" mnemonicParsing="false" onAction="#GetStudentInfo" prefHeight="25.0" prefWidth="151.0" text="Get Student Information" />
-                <Button fx:id="getSupervisorButton" layoutY="48.0" mnemonicParsing="false" onAction="#GetSupervisor" prefHeight="25.0" prefWidth="151.0" text="Get Supervisor" />
-                <Button fx:id="getCoursesforStudentButton" layoutY="73.0" mnemonicParsing="false" onAction="#GetCourses" prefHeight="25.0" prefWidth="151.0" text="Get Courses" />
+                <Button fx:id="getStudentinfoButton" layoutY="28.0" mnemonicParsing="false" onAction="#GetStudentInfo" prefHeight="25.0" prefWidth="151.0" text="Get Student Info" />
+                <Button fx:id="getSupervisorButton" layoutY="53.0" mnemonicParsing="false" onAction="#GetSupervisor" prefHeight="25.0" prefWidth="151.0" text="Get Supervisor" />
+                <Button fx:id="getCoursesforStudentButton" layoutY="78.0" mnemonicParsing="false" onAction="#GetCourses" prefHeight="25.0" prefWidth="151.0" text="Get Courses" />
+                <Button fx:id="deleteStudentButton" layoutY="103.0" mnemonicParsing="false" onAction="#DeleteStudent" prefHeight="25.0" prefWidth="151.0" text="Delete Student" />
+                <Button fx:id="enrollStudentButton" layoutY="128.0" mnemonicParsing="false" onAction="#EnrollStudent" prefHeight="25.0" prefWidth="151.0" text="Enroll in Course" />
             </children>
         </Group>
-        <Group fx:id="LecturerGroup" layoutX="24.0" layoutY="251.0">
+
+        <Group fx:id="LecturerGroup" layoutX="24.0" layoutY="240.0">
             <children>
-                <TextField editable="false" prefHeight="23.0" prefWidth="151.0" text="Lecturer">
+                <TextField editable="false" prefHeight="23.0" prefWidth="151.0" text="Lecturer Operations">
                     <font>
                         <Font name="Tahoma Bold" size="12.0" />
                     </font>
                 </TextField>
-
-                <Button fx:id="getLecturerinfoButton" layoutY="23.0" mnemonicParsing="false" onAction="#GetLecturerInfo" prefHeight="25.0" prefWidth="151.0" text="Get Lecturer Information" />
-                <Button fx:id="getSuperviseeButton" layoutY="48.0" mnemonicParsing="false" onAction="#GetSupervisee" prefHeight="25.0" prefWidth="151.0" text="Get Supervisee" />
-                <Button fx:id="getCoursesforLecturerButton" layoutY="73.0" mnemonicParsing="false" onAction="#GetLecturerCourses" prefHeight="25.0" prefWidth="151.0" text="Get Courses" />
+                <Button fx:id="getLecturerinfoButton" layoutY="23.0" mnemonicParsing="false" onAction="#GetLecturerInfo" prefHeight="25.0" prefWidth="151.0" text="Get Lecturer Info" />
+                <Button fx:id="getSuperviseeButton" layoutY="48.0" mnemonicParsing="false" onAction="#GetSupervisee" prefHeight="25.0" prefWidth="151.0" text="Get Supervisees" />
+                <Button fx:id="getCoursesforLecturerButton" layoutY="73.0" mnemonicParsing="false" onAction="#GetLecturerCourses" prefHeight="25.0" prefWidth="151.0" text="Get Courses Taught" />
+                <Button fx:id="deleteLecturerButton" layoutY="98.0" mnemonicParsing="false" onAction="#DeleteLecturer" prefHeight="25.0" prefWidth="151.0" text="Delete Lecturer" />
             </children>
         </Group>
 
-        <!-- Added fx:ids to TabPane and Tabs so Controller can switch them -->
-        <TabPane fx:id="mainTabPane" layoutX="175.0" layoutY="14.0" prefHeight="582.0" prefWidth="619.0" tabClosingPolicy="UNAVAILABLE">
+        <Group fx:id="CourseGroup" layoutX="24.0" layoutY="400.0">
+            <children>
+                <TextField editable="false" prefHeight="23.0" prefWidth="151.0" text="Course Operations">
+                    <font>
+                        <Font name="Tahoma Bold" size="12.0" />
+                    </font>
+                </TextField>
+                <Button fx:id="getCourseInfoButton" layoutY="23.0" mnemonicParsing="false" onAction="#GetCourseInfo" prefHeight="25.0" prefWidth="151.0" text="Get Course Info" />
+                <Button fx:id="getCourseStudentsButton" layoutY="48.0" mnemonicParsing="false" onAction="#GetCourseStudents" prefHeight="25.0" prefWidth="151.0" text="Get Enrolled Students" />
+                <Button fx:id="deleteCourseButton" layoutY="73.0" mnemonicParsing="false" onAction="#DeleteCourse" prefHeight="25.0" prefWidth="151.0" text="Delete Course" />
+            </children>
+        </Group>
+
+        <TabPane fx:id="mainTabPane" layoutX="190.0" layoutY="14.0" prefHeight="650.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab fx:id="studentTab" text="Student">
+                <Tab fx:id="studentTab" text="Student / Course">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <TextFlow fx:id="studentOutputFlow" layoutX="276.0" layoutY="115.0" prefHeight="422.0" prefWidth="331.0" style="-fx-background-color: #f4f4f4;" />
-                                <TextField fx:id="infoEnterStudent" layoutX="14.0" layoutY="50.0" promptText="Enter Student ID" />
-                                <Button fx:id="EnterButtonStudent" layoutX="63.0" layoutY="75.0" mnemonicParsing="false" onAction="#handleStudentEnter" text="Enter" />
+                                <TextFlow fx:id="studentOutputFlow" layoutX="20.0" layoutY="115.0" prefHeight="480.0" prefWidth="560.0" style="-fx-background-color: #f4f4f4;" />
+                                <TextField fx:id="infoEnterStudent" layoutX="20.0" layoutY="50.0" prefHeight="25.0" prefWidth="200.0" promptText="Enter ID" />
+                                <Button fx:id="EnterButtonStudent" layoutX="230.0" layoutY="50.0" mnemonicParsing="false" onAction="#handleStudentEnter" text="Enter" />
                             </children>
                         </AnchorPane>
                     </content>
                 </Tab>
-                <Tab fx:id="lecturerTab" text="Lecturer">
+                <Tab fx:id="lecturerTab" text="Lecturer ">
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                             <children>
-                                <TextField fx:id="infoEnterLecturer" layoutX="14.0" layoutY="48.0" promptText="Enter Lecturer ID" />
-                                <Button fx:id="TabButtonLecturer" layoutX="63.0" layoutY="73.0" mnemonicParsing="false" onAction="#handleLecturerEnter" text="Enter" />
-                                <TextFlow fx:id="lecturerOutputFlow" layoutX="247.0" layoutY="123.0" prefHeight="407.0" prefWidth="355.0" style="-fx-background-color: #f4f4f4;" />
+                                <TextField fx:id="infoEnterLecturer" layoutX="20.0" layoutY="48.0" prefHeight="25.0" prefWidth="200.0" promptText="Enter ID" />
+                                <Button fx:id="TabButtonLecturer" layoutX="230.0" layoutY="48.0" mnemonicParsing="false" onAction="#handleLecturerEnter" text="Enter" />
+                                <TextFlow fx:id="lecturerOutputFlow" layoutX="20.0" layoutY="123.0" prefHeight="480.0" prefWidth="560.0" style="-fx-background-color: #f4f4f4;" />
                             </children>
                         </AnchorPane>
                     </content>

@@ -13,6 +13,8 @@ public class Student {
     private double gpa;
     private int departmentId;
     private int supervisorId;
+    private String departmentName;
+    private String supervisorName;
 
     public Student(int id, String name, String surname, Date dateOfBirth, String gender, String email, String phone, String address, double gpa, int departmentId, int supervisorId) {
         this.id = id;
@@ -26,6 +28,22 @@ public class Student {
         this.gpa = gpa;
         this.departmentId = departmentId;
         this.supervisorId = supervisorId;
+    }
+
+    public Student(int id, String name, String surname, Date dateOfBirth, String gender, String email, String phone, String address, double gpa, int departmentId, int supervisorId, String departmentName, String supervisorName) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.gpa = gpa;
+        this.departmentId = departmentId;
+        this.supervisorId = supervisorId;
+        this.departmentName = departmentName;
+        this.supervisorName = supervisorName;
     }
 
     public int getId() {
@@ -60,6 +78,18 @@ public class Student {
     }
     public int getSupervisorId() {
         return supervisorId;
+    }
+    public String getDepartmentName() {
+        return departmentName;
+    }
+    public String getSupervisorName() {
+        return supervisorName;
+    }
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+    public void setSupervisorName(String supervisorName) {
+        this.supervisorName = supervisorName;
     }
 
 }

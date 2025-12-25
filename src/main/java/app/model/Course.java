@@ -6,6 +6,7 @@ public class Course {
     private String courseCode;
     private int credits;
     private int departmentId;
+    private String departmentName;
 
     public Course(int courseId, String courseName, String courseCode, int credits, int departmentId) {
         this.courseId = courseId;
@@ -13,6 +14,15 @@ public class Course {
         this.courseCode = courseCode;
         this.credits = credits;
         this.departmentId = departmentId;
+    }
+
+    public Course(int courseId, String courseName, String courseCode, int credits, int departmentId, String departmentName) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.courseCode = courseCode;
+        this.credits = credits;
+        this.departmentId = departmentId;
+        this.departmentName = departmentName;
     }
 
     public int getCourseId() {
@@ -29,5 +39,11 @@ public class Course {
     }
     public int getDepartmentId() {
         return departmentId;
+    }
+    public String getDepartmentName() {
+        return departmentName;
+    }
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 }

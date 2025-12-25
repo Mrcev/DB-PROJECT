@@ -11,9 +11,8 @@ public class Start extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            // Note: Ensure mainPage.fxml is in the same directory as this class
-            // or update the path to "/app/mainPage.fxml" if in a resource folder.
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("mainPage.fxml"));
+            // Load FXML from resources folder using absolute path
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/app/mainPage.fxml"));
             Parent root = loader.load();
 
             Scene scene = new Scene(root);

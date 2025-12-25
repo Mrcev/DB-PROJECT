@@ -6,6 +6,7 @@ public class Lecturer {
     private String email;
     private String phone;
     private int departmentId;
+    private String departmentName;
 
     public Lecturer(int id, String name, String surname, String email, String phone, int departmentId) {
         this.id = id;
@@ -14,6 +15,16 @@ public class Lecturer {
         this.email = email;
         this.phone = phone;
         this.departmentId = departmentId;
+    }
+
+    public Lecturer(int id, String name, String surname, String email, String phone, int departmentId, String departmentName) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phone = phone;
+        this.departmentId = departmentId;
+        this.departmentName = departmentName;
     }
     public int getId() {
         return id;
@@ -32,5 +43,11 @@ public class Lecturer {
     }
     public int getDepartmentId() {
         return departmentId;
+    }
+    public String getDepartmentName() {
+        return departmentName;
+    }
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 }

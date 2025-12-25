@@ -68,12 +68,95 @@ public class mainController {
         infoEnterStudent.requestFocus(); }
 
     @FXML
+    public void DeleteStudent(ActionEvent event) {
+        mainTabPane.getSelectionModel().select(studentTab);
+        currentStudentAction = "DELETE";
+        infoEnterStudent.setPromptText("Enter ID to DELETE");
+        studentOutputFlow.getChildren().clear();
+        infoEnterStudent.requestFocus(); }
+
+    @FXML
+    public void EnrollStudent(ActionEvent event) {
+        mainTabPane.getSelectionModel().select(studentTab);
+        currentStudentAction = "ENROLL";
+        infoEnterStudent.setPromptText("Enter: StudentID, CourseID");
+        studentOutputFlow.getChildren().clear();
+        infoEnterStudent.requestFocus(); }
+
+    @FXML
     public void handleStudentEnter(ActionEvent event) {
         //  Get Input
         String studentID = infoEnterStudent.getText();
         studentOutputFlow.getChildren().clear();
 
-        //  Background Validation
+        // Handle ENROLL case separately (requires two IDs)
+        if (currentStudentAction.equals("ENROLL")) {
+            String[] parts = studentID.split(",");
+            if (parts.length == 2) {
+                try {
+                    int sId = Integer.parseInt(parts[0].trim());
+                    int cId = Integer.parseInt(parts[1].trim());
+                    printToStudentConsole("Enrolling Student...\n", Color.BLACK, true);
+                    boolean enrolled = dbHelper.enroll(sId, cId);
+                    if (enrolled) {
+                        printToStudentConsole("Enrolled successfully.", Color.GREEN, false);
+                    } else {
+                        printToStudentConsole("Enrollment failed. Check if student and course exist.", Color.RED, false);
+                    }
+                } catch (NumberFormatException e) {
+                    printToStudentConsole("Invalid format. Use: StudentID, CourseID", Color.RED, true);
+                }
+            } else {
+                printToStudentConsole("Invalid format. Use: StudentID, CourseID", Color.RED, true);
+            }
+            return;
+        }
+
+        // Handle Course operations (they use course ID, not student ID)
+        if (currentStudentAction.equals("COURSE_INFO") || currentStudentAction.equals("COURSE_STUDENTS") || currentStudentAction.equals("DELETE_COURSE")) {
+            try {
+                int courseId = Integer.parseInt(studentID.trim());
+                switch (currentStudentAction) {
+                    case "COURSE_INFO":
+                        printToStudentConsole("Course Information:\n", Color.BLACK, true);
+                        Course course = dbHelper.getCourseInfo(courseId);
+                        if (course != null) {
+                            printToStudentConsole("Course Name: " + course.getCourseName() + "\nCourse Code: " + course.getCourseCode() + "\nCredits: " + course.getCredits() + "\nDepartment: " + (course.getDepartmentName() != null ? course.getDepartmentName() : "N/A") + "\n", Color.DARKBLUE, false);
+                        } else {
+                            printToStudentConsole("Course not found.", Color.RED, false);
+                        }
+                        break;
+                    case "COURSE_STUDENTS":
+                        printToStudentConsole("Enrolled Students:\n", Color.BLACK, true);
+                        List<Student> enrolledStudents = dbHelper.courseStudents(courseId);
+                        if (!enrolledStudents.isEmpty()) {
+                            StringBuilder studentList = new StringBuilder();
+                            for (Student s : enrolledStudents) {
+                                studentList.append("- ").append(s.getName()).append(" ").append(s.getSurname())
+                                    .append(" (ID: ").append(s.getId()).append(") - ").append(s.getDepartmentName() != null ? s.getDepartmentName() : "N/A").append("\n");
+                            }
+                            printToStudentConsole(studentList.toString(), Color.DARKGREEN, false);
+                        } else {
+                            printToStudentConsole("No students enrolled.", Color.RED, false);
+                        }
+                        break;
+                    case "DELETE_COURSE":
+                        printToStudentConsole("Deleting Course...\n", Color.BLACK, true);
+                        boolean courseDeleted = dbHelper.deleteCourse(courseId);
+                        if (courseDeleted) {
+                            printToStudentConsole("Course deleted successfully.", Color.GREEN, false);
+                        } else {
+                            printToStudentConsole("Delete failed. Course may not exist or has enrollments.", Color.RED, false);
+                        }
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                printToStudentConsole("Invalid Course ID format.", Color.RED, true);
+            }
+            return;
+        }
+
+        //  Background Validation for Student operations
         if (!validateStudentID(studentID)) {
             printToStudentConsole("Invalid Student ID.\nID must start with 'S' followed by numbers.\nExample: S12345", Color.RED, true);
             return; }
@@ -98,7 +181,7 @@ public class mainController {
                 printToStudentConsole("Displaying Student Information...\n", Color.BLACK, true);
                 Student student = dbHelper.getStudentInfo(studentId);
                 if (student != null) {
-                    printToStudentConsole("Name: " + student.getName() + " " + student.getSurname() + "\nEmail: " + student.getEmail() + "\nGPA: " + String.format("%.2f", student.getGpa()) + "\n", Color.DARKBLUE, false);
+                    printToStudentConsole("Name: " + student.getName() + " " + student.getSurname() + "\nEmail: " + student.getEmail() + "\nGPA: " + String.format("%.2f", student.getGpa()) + "\nDepartment: " + (student.getDepartmentName() != null ? student.getDepartmentName() : "N/A") + "\nSupervisor: " + (student.getSupervisorName() != null ? student.getSupervisorName() : "N/A") + "\n", Color.DARKBLUE, false);
                 } else {
                     printToStudentConsole("Student not found.", Color.RED, false);
                 }
@@ -107,7 +190,7 @@ public class mainController {
                 printToStudentConsole("Fetching Supervisor...\n", Color.BLACK, true);
                 Lecturer supervisor = dbHelper.getSupervisorInfo(studentId);
                 if (supervisor != null) {
-                    printToStudentConsole("Supervisor: " + supervisor.getName() + " " + supervisor.getSurname() + "\nEmail: " + supervisor.getEmail() + "\nPhone: " + supervisor.getPhone(), Color.DARKGREEN, false);
+                    printToStudentConsole("Supervisor: " + supervisor.getName() + " " + supervisor.getSurname() + "\nEmail: " + supervisor.getEmail() + "\nPhone: " + supervisor.getPhone() + "\nDepartment: " + (supervisor.getDepartmentName() != null ? supervisor.getDepartmentName() : "N/A") + "\n", Color.DARKGREEN, false);
                 } else {
                     printToStudentConsole("Supervisor not found.", Color.RED, false);
                 }
@@ -118,11 +201,20 @@ public class mainController {
                 if (!courses.isEmpty()) {
                     StringBuilder courseList = new StringBuilder();
                     for (Course course : courses) {
-                        courseList.append("- ").append(course.getCourseName()).append(" (").append(course.getCourseCode()).append(")\n");
+                        courseList.append("- ").append(course.getCourseName()).append(" (").append(course.getCourseCode()).append(") - ").append(course.getDepartmentName() != null ? course.getDepartmentName() : "N/A").append("\n");
                     }
                     printToStudentConsole(courseList.toString(), Color.DARKMAGENTA, false);
                 } else {
                     printToStudentConsole("No courses found.", Color.RED, false);
+                }
+                break;
+            case "DELETE":
+                printToStudentConsole("Deleting Student...\n", Color.BLACK, true);
+                boolean deleted = dbHelper.deleteStudent(studentId);
+                if (deleted) {
+                    printToStudentConsole("Student deleted successfully.", Color.GREEN, false);
+                } else {
+                    printToStudentConsole("Delete failed. Student may not exist.", Color.RED, false);
                 }
                 break;
             default:
@@ -153,6 +245,14 @@ public class mainController {
         infoEnterLecturer.requestFocus(); }
 
     @FXML
+    public void DeleteLecturer(ActionEvent event) {
+        mainTabPane.getSelectionModel().select(lecturerTab);
+        currentLecturerAction = "DELETE";
+        infoEnterLecturer.setPromptText("Enter ID to DELETE");
+        lecturerOutputFlow.getChildren().clear();
+        infoEnterLecturer.requestFocus(); }
+
+    @FXML
     public void handleLecturerEnter(ActionEvent event) {
         String lecturerID = infoEnterLecturer.getText();
         lecturerOutputFlow.getChildren().clear();
@@ -179,7 +279,7 @@ public class mainController {
                 printToLecturerConsole("Lecturer Profile:\n", Color.BLACK, true);
                 Lecturer lecturer = dbHelper.getLecturerInfo(lecturerId);
                 if (lecturer != null) {
-                    printToLecturerConsole(lecturer.getName() + " " + lecturer.getSurname() + "\nEmail: " + lecturer.getEmail() + "\nPhone: " + lecturer.getPhone(), Color.DARKBLUE, false);
+                    printToLecturerConsole(lecturer.getName() + " " + lecturer.getSurname() + "\nEmail: " + lecturer.getEmail() + "\nPhone: " + lecturer.getPhone() + "\nDepartment: " + (lecturer.getDepartmentName() != null ? lecturer.getDepartmentName() : "N/A") + "\n", Color.DARKBLUE, false);
                 } else {
                     printToLecturerConsole("Lecturer not found.", Color.RED, false);
                 }
@@ -191,7 +291,7 @@ public class mainController {
                     StringBuilder studentList = new StringBuilder();
                     for (Student student : students) {
                         studentList.append("- ").append(student.getName()).append(" ").append(student.getSurname())
-                            .append(" (ID: ").append(student.getId()).append(")\n");
+                            .append(" (ID: ").append(student.getId()).append(") - ").append(student.getDepartmentName() != null ? student.getDepartmentName() : "N/A").append("\n");
                     }
                     printToLecturerConsole(studentList.toString(), Color.DARKGREEN, false);
                 } else {
@@ -204,11 +304,20 @@ public class mainController {
                 if (!courses.isEmpty()) {
                     StringBuilder courseList = new StringBuilder();
                     for (Course course : courses) {
-                        courseList.append("- ").append(course.getCourseName()).append(" (").append(course.getCourseCode()).append(")\n");
+                        courseList.append("- ").append(course.getCourseName()).append(" (").append(course.getCourseCode()).append(") - ").append(course.getDepartmentName() != null ? course.getDepartmentName() : "N/A").append("\n");
                     }
                     printToLecturerConsole(courseList.toString(), Color.DARKMAGENTA, false);
                 } else {
                     printToLecturerConsole("No courses found.", Color.RED, false);
+                }
+                break;
+            case "DELETE":
+                printToLecturerConsole("Deleting Lecturer...\n", Color.BLACK, true);
+                boolean deleted = dbHelper.deleteLecturer(lecturerId);
+                if (deleted) {
+                    printToLecturerConsole("Lecturer deleted successfully.", Color.GREEN, false);
+                } else {
+                    printToLecturerConsole("Delete failed. Lecturer may not exist.", Color.RED, false);
                 }
                 break;
             default:
@@ -234,4 +343,31 @@ public class mainController {
         Text textNode = new Text(message);
         textNode.setFill(color);
         textNode.setFont(Font.font("Verdana", isBold ? FontWeight.BOLD : FontWeight.NORMAL, 13));
-        lecturerOutputFlow.getChildren().add(textNode); }}
+        lecturerOutputFlow.getChildren().add(textNode); }
+
+    // --- Course Operations ---
+    @FXML
+    public void GetCourseInfo(ActionEvent event) {
+        mainTabPane.getSelectionModel().select(studentTab);
+        currentStudentAction = "COURSE_INFO";
+        infoEnterStudent.setPromptText("Enter Course ID");
+        studentOutputFlow.getChildren().clear();
+        infoEnterStudent.requestFocus(); }
+
+    @FXML
+    public void GetCourseStudents(ActionEvent event) {
+        mainTabPane.getSelectionModel().select(studentTab);
+        currentStudentAction = "COURSE_STUDENTS";
+        infoEnterStudent.setPromptText("Enter Course ID");
+        studentOutputFlow.getChildren().clear();
+        infoEnterStudent.requestFocus(); }
+
+    @FXML
+    public void DeleteCourse(ActionEvent event) {
+        mainTabPane.getSelectionModel().select(studentTab);
+        currentStudentAction = "DELETE_COURSE";
+        infoEnterStudent.setPromptText("Enter Course ID to DELETE");
+        studentOutputFlow.getChildren().clear();
+        infoEnterStudent.requestFocus(); }
+}
+
